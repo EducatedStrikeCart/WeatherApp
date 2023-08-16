@@ -1,0 +1,18 @@
+﻿@using WeatherApp.Shared.Models
+
+<div class="d-flex flex-column border border-primary">
+	<h3>@(City.City)</h3>
+	@if (City.StateCode != null)
+	{
+		<div> State: @(City.StateCode) </div>
+	}
+	<div>Country: @(City.CountryCode)</div>
+
+	<NavLink href="@{$"/weather?lat={City.Latitude}&lon={City.Longitude}"}">This is my city...</NavLink>
+</div>
+
+@code {
+	[CascadingParameter(Name ="City")]
+	public Location City { get; set; } = new();
+
+}

@@ -1,0 +1,97 @@
+﻿@using WeatherApp.Shared
+@using WeatherApp.Shared.Models
+@using ISO3166
+@using System.Net.Http
+@inject HttpClient _http
+@inject WeatherApp.Client.Services.OpenWeatherParser _openWeatherParser
+
+@page "/location"
+
+<div>
+	<EditForm class="d-flex flex-column justify-content-between" Model="@UserLocation" OnValidSubmit="@HandleValidSubmit">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+		<label>
+			Country
+			<InputSelect id="country" @bind-Value="UserLocation.CountryCode">
+				<option value=""></option> <!-- Null value to ensure binding occurs for first option-->
+				@foreach (ISO3166.Country country in ISO3166.Country.List)
+				{
+					<option value="@(country.TwoLetterCode)">@(country.Name)</option>
+				}
+			</InputSelect>
+		</label>
+		@if (UserLocation.CountryCode == "US")
+		{
+			<label>
+				State
+				<InputSelect id="state" @bind-Value="UserLocation.StateCode">
+					<option value=""></option> <!-- Null value to ensure binding occurs for first option-->
+					@foreach (KeyValuePair<string, string> state in USStates.StateCodes)
+					{
+						<option value="@(state.Value)">@(state.Key)</option>
+					}
+				</InputSelect>
+			</label>
+		}
+		<label>
+			City
+			<InputText id="city" @bind-Value="UserLocation.City" />
+		</label>
+		<button class="btn btn-primary" type="submit">Submit</button>
+
+	</EditForm>
+	@UserLocation.CountryCode
+	@UserLocation.StateCode
+	@UserLocation.City
+
+
+	<button class="btn btn-primary" onclick="@TestCallback">Test</button>
+
+	@foreach (Location location in Cities)
+	{
+		<div>@(location.City)</div>
+	}
+
+</div>
+
+
+@code {
+	[Parameter]
+	public string Lat { get; set; } = "";
+	[Parameter]
+	public string Lon { get; set; } = "";
+
+	public Location UserLocation { get; set; } = new();
+
+	[Parameter]
+	public List<Location> Cities { get; set; } = new();
+
+
+	[Parameter]
+	public EventCallback<List<Location>> CitiesChanged { get; set; }
+
+	private async Task HandleValidSubmit()
+	{
+		await RetrieveLocations();
+		//Cities.Add(new Location("US", "PA", "Philadelphia",null, null));
+		//Cities.Add(new Location("US", "NY", "New York City", null, null));
+		await CitiesChanged.InvokeAsync(Cities);
+	}
+
+
+	private async Task RetrieveLocations()
+	{
+		var response = await _http.PostAsJsonAsync<Location>("/api/v1/openweather/cities", UserLocation);
+		var result = response.Content.ReadAsStringAsync().Result;
+		Cities = _openWeatherParser.CitiesFromJson(result);
+	}
+
+	private async Task TestCallback()
+	{
+		var payload =  await _http.GetAsync("/api/v1/openweather/test");
+		Console.WriteLine(payload.Content.ReadAsStringAsync().Result.ToString());
+		UserLocation.CountryCode = payload.Content.ReadAsStringAsync().Result;
+	}
+
+}

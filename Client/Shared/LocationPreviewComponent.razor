@@ -1,0 +1,28 @@
+﻿@using WeatherApp.Shared.Models
+
+
+
+<div class="d-flex flex-column">
+	<h3>Location Preview</h3>
+
+	@if(@Cities != null)
+	{
+		<div class="d-flex flex-column">
+			@foreach (var city in Cities)
+			{
+				<CascadingValue Value="city" Name="City">
+					<CityDisplayComponent />
+				</CascadingValue>
+			}
+		</div>
+
+	} else
+	{
+		<div>Pick your city to the left!</div>
+	}
+</div>
+
+@code {
+	[CascadingParameter(Name ="Cities")]
+	public List<Location>? Cities { get; set; }
+}
