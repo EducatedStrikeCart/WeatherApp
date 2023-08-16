@@ -11,12 +11,12 @@ namespace WeatherApp.Client.Services
 		private HttpClient _httpClient;
 
 		public GeocoderService(HttpClient httpClient) { _httpClient = httpClient; }
-		public async Task<Location[]> GetLocation(string cooardinates)
+		public async Task<GeocoderResult[]> GetLocation(string cooardinates)
 		{
 
 			var response = await _httpClient.GetAsync("/geocoder/cities");
 			string result = response.Content.ReadAsStringAsync().Result;
-			Location[] locationArr = JsonSerializer.Deserialize<Location[]>(result);
+			GeocoderResult[] locationArr = JsonSerializer.Deserialize<GeocoderResult[]>(result);
 
 			return locationArr;
 		}
