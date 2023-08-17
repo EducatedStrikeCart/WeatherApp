@@ -1,6 +1,4 @@
-﻿
-
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace WeatherApp.Shared.OpenWeatherAPIParser
 {
@@ -19,10 +17,14 @@ namespace WeatherApp.Shared.OpenWeatherAPIParser
 		[JsonPropertyName("visibility")]
 		public int Visibility { get; set; }
 
-		public ForecastCurrent(
+        // Probability of precipitation. The values of the parameter vary between 0 and 1, where 0 is equal to 0%, 1 is equal to 100%
+        [JsonPropertyName("pop")]
+        public double? Pop { get; set; }
+
+        public ForecastCurrent(
 			long dt,
-			long sunrise,
-			long sunset,
+			long? sunrise,
+			long? sunset,
 			double temp,
 			double feelsLike,
 			long pressure,
@@ -32,11 +34,13 @@ namespace WeatherApp.Shared.OpenWeatherAPIParser
 			long clouds,
 			int visibility,
 			double windSpeed,
-			double? windGust,
-			long windDeg,
-			double? rain,
+            double windDeg,
+            double? windGust,
+            ForecastWeather[] weather,
+            double? rain,
 			double? snow,
-			ForecastWeather[] weather) : base(
+			double? pop
+			) : base(
 			dt,
 			 sunrise,
 			 sunset,
@@ -55,6 +59,7 @@ namespace WeatherApp.Shared.OpenWeatherAPIParser
 			Temp = temp;
 			FeelsLike = feelsLike;
 			Visibility = visibility;
-		}
+            Pop = pop;
+        }
 	}
 }

@@ -19,7 +19,7 @@ namespace WeatherApp.Shared.OpenWeatherAPIParser
 		public double Lon { get; set; }
 		// Timezone name for the requested location
 		[JsonPropertyName("timezone")]
-		long Timezone { get; set; }
+		string Timezone { get; set; }
 
 		// Shift in seconds from UTC
 		[JsonPropertyName("timezone_offset")]
@@ -42,7 +42,7 @@ namespace WeatherApp.Shared.OpenWeatherAPIParser
 		public ForecastMinutely[] Minutely { get; set; }
 
 		public Forecast(
-			long timezone,
+			string timezone,
 			long timezone_offset,
 			double lat,
 			double lon,

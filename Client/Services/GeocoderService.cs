@@ -16,9 +16,9 @@ namespace WeatherApp.Client.Services
 
 			var response = await _httpClient.GetAsync("/geocoder/cities");
 			string result = response.Content.ReadAsStringAsync().Result;
-			GeocoderResult[] locationArr = JsonSerializer.Deserialize<GeocoderResult[]>(result);
+			GeocoderResult[] geocoderResults = JsonSerializer.Deserialize<GeocoderResult[]>(result);
 
-			return locationArr;
+			return geocoderResults;
 		}
 	}
 }

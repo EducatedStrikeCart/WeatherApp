@@ -1,17 +1,12 @@
 ﻿using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 using WeatherApp.Client.Services;
 using WeatherApp.Shared.OpenWeatherAPIParser;
 using Xunit;
 
 namespace WeatherAppTests.OpenAPIParserTests
 {
-	public class ParseCurrentForecast
+    public class ParseCurrentForecast
 	{
 		[Fact]
 		public void ReturnsValidObject()
@@ -60,7 +55,8 @@ namespace WeatherAppTests.OpenAPIParserTests
 				snow: null,
 				weather: new ForecastWeather[1] {
 					new ForecastWeather(804,"Clouds","overcast clouds","04n")
-				}
+				},
+				pop: null
 			);
 
 			ForecastCurrent result = OpenWeatherParser.ParseCurrentForecast(currentNode);

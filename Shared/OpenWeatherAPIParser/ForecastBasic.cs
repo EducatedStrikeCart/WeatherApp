@@ -15,11 +15,11 @@ namespace WeatherApp.Shared.OpenWeatherAPIParser
 
 		// Sunrise time, Unix, UTC
 		[JsonPropertyName("sunrise")]
-		public long Sunrise { get; set; }
+		public long? Sunrise { get; set; }
 
 		//Sunset time, Unix, UTC
 		[JsonPropertyName("sunset")]
-		public long Sunset { get; set; }
+		public long? Sunset { get; set; }
 
 		// Atmospheric pressure on the sea level, hPa
 		[JsonPropertyName("pressure")]
@@ -52,7 +52,7 @@ namespace WeatherApp.Shared.OpenWeatherAPIParser
 		// Wind direction, degrees (meteorological)
 
 		[JsonPropertyName("wind_deg")]
-		public long WindDeg { get; set; }
+		public double WindDeg { get; set; }
 
 		// (where available) Precipitation, mm/h
 		[JsonPropertyName("rain")]
@@ -68,8 +68,8 @@ namespace WeatherApp.Shared.OpenWeatherAPIParser
 
 		public ForecastBasic(
 			long dt,
-			long sunrise,
-			long sunset,
+			long? sunrise,
+			long? sunset,
 			long pressure,
 			long humidity,
 			double dewPoint,
@@ -77,7 +77,7 @@ namespace WeatherApp.Shared.OpenWeatherAPIParser
 			long clouds,
 			double windSpeed,
 			double? windGust,
-			long windDeg,
+			double windDeg,
 			double? rain,
 			double? snow,
 			ForecastWeather[] weather)
