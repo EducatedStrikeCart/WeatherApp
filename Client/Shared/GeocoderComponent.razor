@@ -82,16 +82,15 @@
 
 	private async Task RetrieveLocations()
 	{
-		var response = await _http.PostAsJsonAsync<Location>("/api/v1/openweather/cities", UserLocation);
+		var response = await _http.PostAsJsonAsync<Location>("/api/v1/geocoder/cities", UserLocation);
 		var result = response.Content.ReadAsStringAsync().Result;
 		Cities = _openWeatherParser.CitiesFromJson(result);
 	}
 
 	private async Task TestCallback()
 	{
-		var payload =  await _http.GetAsync("/api/v1/openweather/test");
+		var payload = await _http.GetAsync("/api/v1/geocoder/test");
 		Console.WriteLine(payload.Content.ReadAsStringAsync().Result.ToString());
 		UserLocation.CountryCode = payload.Content.ReadAsStringAsync().Result;
 	}
-
 }
