@@ -12,6 +12,7 @@ namespace WeatherApp.Client.Services
 			JsonNode payloadNode = JsonNode.Parse(payload);
 			int nodeCount = payloadNode.AsArray().Count;
 			List<Location> cities = new List<Location>();
+
 			for (int i = 0; i < nodeCount; i++)
 			{
 				if (payloadNode[i] != null)
@@ -21,17 +22,16 @@ namespace WeatherApp.Client.Services
 					double latitude = currentNode!["lat"]!.GetValue<double>();
 					double longitude = currentNode!["lon"]!.GetValue<double>();
 					string country = currentNode!["country"]!.GetValue<string>();
-					string state = currentNode!["state"]!.GetValue<string>();
-					if (state != null)
+					if (currentNode!["state"] != null)
 					{
+						string state = currentNode!["state"]!.GetValue<string>();
 						Location location = new Location(country, state, city, latitude, longitude);
 						cities.Add(location);
 					}
-					else
+					else 
 					{
 						Location location = new Location(country, city, latitude, longitude);
 						cities.Add(location);
-
 					}
 				}
 			}
@@ -46,7 +46,7 @@ namespace WeatherApp.Client.Services
 
 			// output components
 			(double lat, double lon) = (payloadNode!["lat"]!.GetValue<double>(), payloadNode!["long"]!.GetValue<double>());
-			(long timezone, long timezoneOffset) = (payloadNode["timezone"].GetValue<long>(), payloadNode["timezone_offset"].GetValue<long>());
+			(string timezone, long timezoneOffset) = (payloadNode["timezone"].GetValue<string>(), payloadNode["timezone_offset"].GetValue<long>());
 			ForecastCurrent currentForecast = ParseCurrentForecast(payloadNode["current"]);
 			ForecastDaily[] dailyForecast = ParseDailyForecast(payloadNode["daily"]);
 			ForecastCurrent[] hourlyForecast = ParseHourlyForecast(payloadNode["hourly"]);
@@ -67,7 +67,13 @@ namespace WeatherApp.Client.Services
 
 		public static ForecastDaily[] ParseDailyForecast(JsonNode dailyNode)
 		{
-			return JsonSerializer.Deserialize<ForecastDaily[]>(dailyNode);
+            int count = dailyNode.AsArray().Count;
+            ForecastDaily[] output = new ForecastDaily[count];
+            for (int i = 0; i < count; i++)
+            {
+                output[i] = JsonSerializer.Deserialize<ForecastDaily>(dailyNode[i]);
+            }
+            return output;
 		}
 
 		public static ForecastCurrent ParseCurrentForecast(JsonNode node)
