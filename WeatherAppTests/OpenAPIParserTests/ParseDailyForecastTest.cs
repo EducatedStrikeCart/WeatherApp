@@ -145,7 +145,7 @@ namespace WeatherAppTests.OpenAPIParserTests
         [Fact]
         public void ReturnsValidObject()
         {
-            ForecastDaily[] expected = new ForecastDaily[1]
+            ForecastDaily[] expected = new ForecastDaily[2]
             {
                 new ForecastDaily(
                     dt: 1682697600,
@@ -168,35 +168,33 @@ namespace WeatherAppTests.OpenAPIParserTests
                     rain: 9.3,
                     snow: null,
                     uvi: 1.81),
-                //new ForecastDaily(
-                //    dt: 1682784000,
-                //    sunrise: 1682762611,
-                //    sunset: 1682812338,
-                //    moonrise: 1682790540,
-                //    moonset: 1682753340,
-                //    moonPhase: 0.3,
-                //    temp: new ForecastDailyTemp(55.06,50.74,56.89,56.14,56.86,51.75),
-                //    feelsLike: new ForecastDailyFeelsLike(54.82,56.1,56.86,51.08),
-                //    pressure: 1011,
-                //    humidity: 97,
-                //    dewPoint: 53.96,
-                //    windSpeed:13.76,
-                //    windDeg: 89,
-                //    windGust:34.18,
-                //    weather: new ForecastWeather[]{new ForecastWeather(501, "Rain", "moderate rain", "10d") },
-                //    clouds: 100,
-                //    pop: 1,
-                //    rain:9.91,
-                //    snow: null,
-                //    uvi: 0.42)
+                new ForecastDaily(
+                    dt: 1682784000,
+                    sunrise: 1682762611,
+                    sunset: 1682812338,
+                    moonrise: 1682790540,
+                    moonset: 1682753340,
+                    moonPhase: 0.3,
+                    temp: new ForecastDailyTemp(55.06,50.74,56.89,56.14,56.86,51.75),
+                    feelsLike: new ForecastDailyFeelsLike(54.82,56.1,56.86,51.08),
+                    pressure: 1011,
+                    humidity: 97,
+                    dewPoint: 53.96,
+                    windSpeed:13.76,
+                    windDeg: 89,
+                    windGust:34.18,
+                    weather: new ForecastWeather[]{new ForecastWeather(501, "Rain", "moderate rain", "10d") },
+                    clouds: 100,
+                    pop: 1,
+                    rain:9.91,
+                    snow: null,
+                    uvi: 0.42)
             };
             output.WriteLine(dailyNode.ToString());
 
             ForecastDaily[] result = OpenWeatherParser.ParseDailyForecast(dailyNode);
 
-            "0".Should().Be("0");
-            //expected[0].GetHashCode().Should().Be(result[0].GetHashCode());
-            //expected[0].Should().BeEquivalentTo(result[0]); 
+            expected[0].Should().BeEquivalentTo(result[0]);
 
         }
     }
