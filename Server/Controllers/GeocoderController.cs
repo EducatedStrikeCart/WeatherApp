@@ -27,9 +27,11 @@ namespace WeatherApp.Server.Controllers
 		[Route("cities")]
 		public async Task<string> GetCitiesJson(Location userLocation)
 		{
+			string optionalStateParam = userLocation.StateCode != null ? $",{userLocation.StateCode}" : ""; // Add in StateCode to query if needed
 			var response = await _httpClient.GetAsync(
-				$"http://api.openweathermap.org/geo/1.0/direct?q={userLocation.City},{userLocation.StateCode},{userLocation.CountryCode}&limit=5&appid={_configuration["OpenWeatherAPIKey"]}"
+				$"http://api.openweathermap.org/geo/1.0/direct?q={userLocation.City}{optionalStateParam},{userLocation.CountryCode}&limit=5&appid={_configuration["OpenWeatherAPIKey"]}"
 			);
+			Console.Write($"http://api.openweathermap.org/geo/1.0/direct?q={userLocation.City}{optionalStateParam},{userLocation.CountryCode}&limit=5&appid={_configuration["OpenWeatherAPIKey"]}");
 			string result = response.Content.ReadAsStringAsync().Result;
 			return result;
 		}
