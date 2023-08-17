@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace WeatherApp.Shared.OpenWeatherAPIParser
 {
-	public class ForecastWeather
-	{
+	public class ForecastWeather : IEquatable<ForecastWeather?>
+    {
 		// Weather condition id
 		[JsonPropertyName("id")]
 		public long Id { get; set; }
@@ -33,25 +33,23 @@ namespace WeatherApp.Shared.OpenWeatherAPIParser
 			Icon = icon;
 		}
 
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as ForecastWeather);
+        }
 
+        public bool Equals(ForecastWeather? other)
+        {
+            return other is not null &&
+                   Id == other.Id &&
+                   Main == other.Main &&
+                   Description == other.Description &&
+                   Icon == other.Icon;
+        }
 
-		public override string? ToString()
-		{
-			return $"{Id}, {Main}, {Description}, {Icon}";
-		}
-
-		public override bool Equals(object? obj)
-		{
-			return obj is ForecastWeather weather &&
-				   Id == weather.Id &&
-				   Main == weather.Main &&
-				   Description == weather.Description &&
-				   Icon == weather.Icon;
-		}
-
-		public override int GetHashCode()
-		{
-			return HashCode.Combine(Id, Main, Description, Icon);
-		}
-	}
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Main, Description, Icon);
+        }
+    }
 }
