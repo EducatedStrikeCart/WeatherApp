@@ -15,26 +15,24 @@
 		<button class="btn btn-primary" onclick="@(()=>TabButtonHandler("tab-current"))">Current</button>
 		<button class="btn btn-primary" onclick="@(()=>TabButtonHandler("tab-minutely"))">Today</button>
 		<button class="btn btn-primary" onclick="@(()=>TabButtonHandler("tab-hourly"))">Hourly</button>
-		<button class="btn btn-primary" onclick="@(() => TabButtonHandler("tab-10day"))">10-DAy</button>
-		@(TabDisplayed)
-	</div>
-	<div id="current-forecast" class=@(TabDisplayed == "tab-current" ? "d-flex" : "d-none")>
-		Current weather
-		@if (this.Forecast != null)
-		{
-			@(this.Forecast.Daily.First().Moonrise)
-		}
-	</div>
-	<div class=@(TabDisplayed == "tab-minutely" ? "d-flex" : "d-none")>
-		<ForecastMinutelyCOmponent />
+		<button class="btn btn-primary" onclick="@(() => TabButtonHandler("tab-10day"))">7-day</button>
+		@(_tabDisplayed)
 	</div>
 
-	<div class=@(TabDisplayed == "tab-hourly" ? "d-flex" : "d-none")>
+	<div id="current-forecast" class=@(_tabDisplayed == "tab-current" ? "d-flex" : "d-none")>
+		<ForecastCurrentComponent Forecast=@(this.Forecast.Current) />
+	</div>
+
+	<div class=@(_tabDisplayed == "tab-minutely" ? "d-flex" : "d-none")>
+		<ForecastMinutelyComponent Forecast=@(this.Forecast.Minutely) />
+	</div>
+
+	<div class=@(_tabDisplayed == "tab-hourly" ? "d-flex" : "d-none")>
 		<ForecastHourlyComponent Forecast=@(this.Forecast.Current)/>
 	</div>
 
-	<div class=@(TabDisplayed == "tab-10day" ? "d-flex" : "d-none")>
-		<ForecastDailyComponent />
+	<div class=@(_tabDisplayed == "tab-10day" ? "d-flex" : "d-none")>
+		<ForecastDailyComponent Forecast=@(this.Forecast.Daily)/>
 	</div>
 </div>
 
@@ -50,11 +48,11 @@
 
 	//public Forecast? Forecast { get; set; }
 
-	private string TabDisplayed = "'";
+	private string _tabDisplayed = "tab-current";
 
 	private void TabButtonHandler(string element)
 	{
-		TabDisplayed = element;
+		_tabDisplayed = element;
 	}
 
 	public Forecast Forecast { get; set; } = new Forecast(
@@ -192,8 +190,8 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		string forecastJson = await this.GetForecast();
-		this.Forecast = OpenWeatherParser.ParseOneCallForecast(forecastJson);
+		//string forecastJson = await this.GetForecast();
+		//this.Forecast = OpenWeatherParser.ParseOneCallForecast(forecastJson);
 		StateHasChanged();
 	}
 }
