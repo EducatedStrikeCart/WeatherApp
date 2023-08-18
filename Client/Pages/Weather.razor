@@ -2,25 +2,168 @@
 
 @using Microsoft.AspNetCore.WebUtilities
 @using WeatherApp.Shared.Models
+@using WeatherApp.Shared.OpenWeatherAPIParser;
 @inject NavigationManager _navManager
 
 
 <h3>Weather</h3>
-@(Latitude)
-@(Longitude)
 <div>
-
+    <div id="tab-buttons">
+        <button class="btn btn-primary" onclick="@(()=>TabButtonHandler("tab-current"))">Current</button>
+        <button class="btn btn-primary" onclick="@(()=>TabButtonHandler("tab-today"))">Today</button>
+        <button class="btn btn-primary" onclick="@(()=>TabButtonHandler("tab-today"))">Hourly</button>
+        <button class="btn btn-primary" onclick="@(() => TabButtonHandler("tab-today"))">10-DAy</button>
+        @(TabDisplayed)
+    </div>
+    <div id="current-forecast" class=@(TabDisplayed == "tab-current" ? "d-flex" : "d-none")>
+        Current weather
+    </div>
+    <div class=@(TabDisplayed == "tab-today" ? "d-flex" : "d-none")>
+        Today's Weather'
+    </div>
 </div>
 
 
 @code {
-	[Parameter]
-	[SupplyParameterFromQuery(Name = "lat")]
-	public double Latitude { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "lat")]
+    public double Latitude { get; set; }
 
-	[Parameter]
-	[SupplyParameterFromQuery(Name = "lon")]
-	public double Longitude { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "lon")]
+    public double Longitude { get; set; }
 
+    private string TabDisplayed { get; set; } = "'";
+
+    private void TabButtonHandler(string element)
+    {
+        TabDisplayed = element;
+    }
+
+    public Forecast Forecast { get; set; } = new Forecast(
+                timezone: "America/New_York",
+                timezone_offset: 25200,
+                lat: 39.9527,
+                lon: -75.1635,
+                current: new ForecastCurrent(
+                    dt: 1682657538,
+                    sunrise: 1682676288,
+                    sunset: 1682725877,
+                    temp: 50.34,
+                    feelsLike: 49.12,
+                    pressure: 1021,
+                    humidity: 86,
+                    dewPoint: 46.33,
+                    uvi: 0,
+                    clouds: 100,
+                    visibility: 10000,
+                    windSpeed: 8.05,
+                    windGust: null,
+                    windDeg: 80,
+                    rain: null,
+                    snow: null,
+                    weather: new ForecastWeather[1]
+                        {
+                            new ForecastWeather(804,"Clouds","overcast clouds","04n")
+                        },
+                    pop: null
+                    ),
+                daily: new ForecastDaily[2]
+                {
+                    new ForecastDaily(
+                        dt: 1682697600,
+                        sunrise: 1682676288,
+                        sunset: 1682725877,
+                        moonrise: 1682700420,
+                        moonset: 1682665200,
+                        moonPhase: 0.27,
+                        temp: new ForecastDailyTemp(55.87,50.32,56.46,50.63,51.91,53.02),
+                        feelsLike: new ForecastDailyFeelsLike(54.82,49.77,51.03,51.93),
+                        pressure: 1019,
+                        humidity: 78,
+                        dewPoint: 49.01,
+                        windSpeed: 16.15,
+                        windDeg: 80,
+                        windGust: 34.78,
+                        weather: new ForecastWeather[]{new ForecastWeather(501, "Rain", "moderate rain", "10d") },
+                        clouds: 100,
+                        pop: 1,
+                        rain: 9.3,
+                        snow: null,
+                        uvi: 1.81),
+                    new ForecastDaily(
+                        dt: 1682784000,
+                        sunrise: 1682762611,
+                        sunset: 1682812338,
+                        moonrise: 1682790540,
+                        moonset: 1682753340,
+                        moonPhase: 0.3,
+                        temp: new ForecastDailyTemp(55.06,50.74,56.89,56.14,56.86,51.75),
+                        feelsLike: new ForecastDailyFeelsLike(54.82,56.1,56.86,51.08),
+                        pressure: 1011,
+                        humidity: 97,
+                        dewPoint: 53.96,
+                        windSpeed:13.76,
+                        windDeg: 89,
+                        windGust:34.18,
+                        weather: new ForecastWeather[]{new ForecastWeather(501, "Rain", "moderate rain", "10d") },
+                        clouds: 100,
+                        pop: 1,
+                        rain:9.91,
+                        snow: null,
+                        uvi: 0.42)
+                },
+                hourly: new ForecastCurrent[2]
+                {
+                    new ForecastCurrent(
+                        dt: 1682654400,
+                        sunrise: null,
+                        sunset: null,
+                        temp: 51.08,
+                        feelsLike: 49.87,
+                        pressure: 1021,
+                        humidity: 85,
+                        dewPoint: 46.74,
+                        uvi: 0,
+                        clouds: 100,
+                        visibility: 10000,
+                        windSpeed: 7.61,
+                        windDeg: 93,
+                        windGust: 18.57,
+                        new ForecastWeather[1] { new ForecastWeather(804, "Clouds", "overcast clouds", "04n") },
+                        rain: null,
+                        snow: null,
+                        pop: 0
+                        ),
+                    new ForecastCurrent(
+                        dt: 1682658000,
+                        sunrise: null,
+                        sunset: null,
+                        temp: 50.34,
+                        feelsLike: 49.12,
+                        pressure: 1021,
+                        humidity: 86,
+                        dewPoint: 46.33,
+                        uvi: 0,
+                        clouds: 100,
+                        visibility: 10000,
+                        windSpeed: 8.21,
+                        windDeg: 93,
+                        windGust: 19.98,
+                        new ForecastWeather[1] { new ForecastWeather(804, "Clouds", "overcast clouds", "04n") },
+                        rain: null,
+                        snow: null,
+                        pop: 0
+                        )
+                },
+                minutely: new ForecastMinutely[5]
+                {
+                    new ForecastMinutely(1682657580, 0),
+                    new ForecastMinutely(1682657640, 0),
+                    new ForecastMinutely(1682657700, 0),
+                    new ForecastMinutely(1682657760, 0),
+                    new ForecastMinutely(1682657820, 0),
+                }
+            );
 
 }
