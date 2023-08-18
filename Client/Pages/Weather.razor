@@ -1,26 +1,46 @@
 ﻿@page "/weather"
 
 @using Microsoft.AspNetCore.WebUtilities
+@using WeatherApp.Client.Services;
 @using WeatherApp.Shared.Models
+@using WeatherApp.Shared.OpenWeatherAPIParser;
 @inject NavigationManager _navManager
+@inject HttpClient _http
 
 
 <h3>Weather</h3>
 @(Latitude)
 @(Longitude)
 <div>
-
+    @if(this.Forecast != null)
+    {
+        @(this.Forecast.Daily.First().Moonrise)
+    }
 </div>
 
 
 @code {
-	[Parameter]
-	[SupplyParameterFromQuery(Name = "lat")]
-	public double Latitude { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "lat")]
+    public double Latitude { get; set; }
 
-	[Parameter]
-	[SupplyParameterFromQuery(Name = "lon")]
-	public double Longitude { get; set; }
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "lon")]
+    public double Longitude { get; set; }
 
+    public Forecast? Forecast { get; set; }
 
+    private async Task<string> GetForecast()
+    {
+        var response = await _http.PostAsJsonAsync("api/v1/weather/forecast", new Coordinates(this.Latitude, this.Longitude));
+        string result = response.Content.ReadAsStringAsync().Result;
+        return result;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        string forecastJson = await this.GetForecast();
+        this.Forecast = OpenWeatherParser.ParseOneCallForecast(forecastJson);
+        StateHasChanged();
+    }
 }

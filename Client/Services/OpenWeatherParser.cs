@@ -42,10 +42,9 @@ namespace WeatherApp.Client.Services
 		public static Forecast ParseOneCallForecast(string payload)
 		{
 			JsonNode payloadNode = JsonNode.Parse(payload);
-			int nodeCount = payloadNode.AsArray().Count;
 
 			// output components
-			(double lat, double lon) = (payloadNode!["lat"]!.GetValue<double>(), payloadNode!["long"]!.GetValue<double>());
+			(double lat, double lon) = (payloadNode!["lat"]!.GetValue<double>(), payloadNode!["lon"]!.GetValue<double>());
 			(string timezone, long timezoneOffset) = (payloadNode["timezone"].GetValue<string>(), payloadNode["timezone_offset"].GetValue<long>());
 			ForecastCurrent currentForecast = ParseCurrentForecast(payloadNode["current"]);
 			ForecastDaily[] dailyForecast = ParseDailyForecast(payloadNode["daily"]);

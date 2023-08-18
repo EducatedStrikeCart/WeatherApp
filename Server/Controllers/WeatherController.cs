@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using WeatherApp.Shared.OpenWeatherAPIParser;
+﻿using Microsoft.AspNetCore.Mvc;
+using WeatherApp.Shared.Models;
 
 namespace WeatherApp.Server.Controllers
 {
-    [Route("api/v1/[controller]")]
+	[Route("api/v1/[controller]")]
 	[ApiController]
 	public class WeatherController : ControllerBase
 	{
@@ -19,14 +18,13 @@ namespace WeatherApp.Server.Controllers
 			_httpClient = httpClient;
 		}
 
-		//[HttpPost]
-		//[Route("/forecast")]
-
-		//public async Task<string> Forecast(Coordinates coordinates)
-		//{
-		//	var result = await _httpClient.PostAsJsonAsync<Coordinates>($"https://api.openweathermap.org/data/3.0/onecall?lat={coordinates.Latitude}lon={coordinates.Longitude}&units=imperial&appid={_configuration["OpenWeatherAPIKey"]}", coordinates);
-		//	var payload = result.Content.ReadAsStringAsync().Result;
-		//	return payload;
-		//} 
+		[HttpPost]
+		[Route("forecast")]
+		public async Task<string> Forecast(Coordinates coordinates)
+		{
+			var result = await _httpClient.GetAsync($"https://api.openweathermap.org/data/3.0/onecall?lat={coordinates.Latitude}&lon={coordinates.Longitude}&units=imperial&appid={_configuration["OpenWeatherAPIKey"]}");
+			var payload = result.Content.ReadAsStringAsync().Result;
+			return payload;
+		}
 	}
 }
