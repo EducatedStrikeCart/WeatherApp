@@ -18,7 +18,7 @@
 		</div>
 		<div class="bg-white h-75 overflow-auto flex-grow-1">
 			<div class="">
-				<div id="current-forecast" class=@(_tabDisplayed == "tab-current" ? "d-flex" : "d-none")>
+				<div id="current-forecast" class=@(_tabDisplayed == "tab-current" ? "container d-flex" : "d-none")>
 					<ForecastCurrentComponent Forecast=@(this.ForecastData.Current) />
 				</div>
 
@@ -26,11 +26,11 @@
 					<ForecastMinutelyComponent Forecast=@(this.ForecastData.Minutely) />
 				</div>
 
-				<div class=@(_tabDisplayed == "tab-hourly" ? "d-flex" : "d-none")>
+				<div class=@(_tabDisplayed == "tab-hourly" ? "container d-flex" : "d-none")>
 					<ForecastHourlyComponent Forecast=@(this.ForecastData.Hourly) />
 				</div>
 
-				<div class=@(_tabDisplayed == "tab-10day" ? "d-flex" : "d-none")>
+				<div class=@(_tabDisplayed == "tab-10day" ? "container d-flex" : "d-none")>
 					<ForecastDailyComponent Forecast=@(this.ForecastData.Daily) />
 				</div>
 			</div>
