@@ -1,0 +1,34 @@
+﻿@using WeatherApp.Shared.Models
+@using WeatherApp.Shared.OpenWeatherAPIParser;
+
+<div class="d-flex flex-column border border-primary">
+    <div>
+        @if (Forecast != null)
+        {
+            @(Forecast.Dt)
+            @(Forecast.Sunrise)
+            @(Forecast.Sunset)
+            @(Forecast.Temp)
+            @(Forecast.FeelsLike)
+            @(Forecast.Pressure)
+            @(Forecast.Humidity)
+            @(Forecast.DewPoint)
+            @(Forecast.Uvi)
+            @(Forecast.Clouds)
+            @(Forecast.Visibility)
+            @(Forecast.WindSpeed)
+            @(Forecast.WindDeg)
+            @(Forecast.WindGust)
+            @(Forecast.Weather)
+            @(Forecast.Rain)
+            @(Forecast.Snow)
+            @(Forecast.Pop)
+        }
+
+    </div>
+</div>
+@code {
+    [Parameter]
+    public ForecastCurrent? Forecast { get; set; }
+
+}

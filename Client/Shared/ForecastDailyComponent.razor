@@ -1,0 +1,34 @@
+﻿using WeatherApp.Shared.Models
+@using WeatherApp.Shared.OpenWeatherAPIParser;
+
+<h3>ForecastDailyComponent</h3>
+
+<div>
+	@if(Forecast != null)
+	{
+		@(Forecast.Dt)
+		@(Forecast.Sunrise)
+		@(Forecast.Sunset)
+		@(Forecast.Temp)
+		@(Forecast.FeelsLike)
+		@(Forecast.Pressure)
+		@(Forecast.Humidity)
+		@(Forecast.DewPoint)
+		@(Forecast.Uvi)
+		@(Forecast.Clouds)
+		@(Forecast.WindSpeed)
+		@(Forecast.WindDeg)
+		@(Forecast.WindGust)
+		@(Forecast.Weather)
+		@(Forecast.Rain)
+		@(Forecast.Snow)
+		@(Forecast.Pop)
+	}
+	
+</div>
+
+@code {
+	[Parameter]
+	public ForecastDaily? Forecast { get; set; }
+}
+

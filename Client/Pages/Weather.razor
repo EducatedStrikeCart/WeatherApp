@@ -9,13 +9,8 @@
 
 
 <h3>Weather</h3>
-@(Latitude)
-@(Longitude)
 <div>
-    @if(this.Forecast != null)
-    {
-        @(this.Forecast.Daily.First().Moonrise)
-    }
+
 </div>
 
 
@@ -28,14 +23,6 @@
     [SupplyParameterFromQuery(Name = "lon")]
     public double Longitude { get; set; }
 
-    public Forecast? Forecast { get; set; }
-
-    private async Task<string> GetForecast()
-    {
-        var response = await _http.PostAsJsonAsync("api/v1/weather/forecast", new Coordinates(this.Latitude, this.Longitude));
-        string result = response.Content.ReadAsStringAsync().Result;
-        return result;
-    }
 
     protected override async Task OnInitializedAsync()
     {
