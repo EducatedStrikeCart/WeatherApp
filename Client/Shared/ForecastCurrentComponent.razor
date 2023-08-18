@@ -1,34 +1,78 @@
-﻿@using WeatherApp.Shared.Models
+﻿@using System.Globalization;
+@using WeatherApp.Shared.Models
 @using WeatherApp.Shared.OpenWeatherAPIParser;
 
-<div class="d-flex flex-column border border-primary">
-    <div>
-        @if (Forecast != null)
-        {
-            @(Forecast.Dt)
-            @(Forecast.Sunrise)
-            @(Forecast.Sunset)
-            @(Forecast.Temp)
-            @(Forecast.FeelsLike)
-            @(Forecast.Pressure)
-            @(Forecast.Humidity)
-            @(Forecast.DewPoint)
-            @(Forecast.Uvi)
-            @(Forecast.Clouds)
-            @(Forecast.Visibility)
-            @(Forecast.WindSpeed)
-            @(Forecast.WindDeg)
-            @(Forecast.WindGust)
-            @(Forecast.Weather)
-            @(Forecast.Rain)
-            @(Forecast.Snow)
-            @(Forecast.Pop)
-        }
+<div class="d-flex flex-column">
+	<div>
+		@if (Forecast != null)
+		{
 
-    </div>
+			<div>
+				Time:@(DateTimeOffset.FromUnixTimeSeconds(Forecast.Dt).DateTime)
+			</div>
+			@if (Forecast.Sunrise != null && Forecast.Sunset != null)
+			{
+				<div>
+					Sunrise: @(Forecast.Sunrise != null ? DateTimeOffset.FromUnixTimeSeconds(Forecast.Sunrise.GetValueOrDefault()).DateTime : null)
+					Sunset: @(DateTimeOffset.FromUnixTimeSeconds(Forecast.Sunset.GetValueOrDefault()).DateTime)
+				</div>
+			}
+
+			<div>
+				Temperature: @(Forecast.Temp)°F
+				Feels Like: @(Forecast.FeelsLike)°F
+				Humidity: @(Forecast.Humidity)%
+
+			</div>
+			<div>
+				Pressure: @(Forecast.Pressure)
+				DewPoint: @(Forecast.DewPoint)
+				Uvi: @(Forecast.Uvi)
+				Clouds: @(Forecast.Clouds)%
+				Visibility: @(Forecast.Visibility)km
+			</div>
+			<div>
+				Wind Speed: @(Forecast.WindSpeed) mph
+				Wind Direction: @(Forecast.WindDeg) °
+				@if (Forecast.WindGust != null)
+				{
+					<div>
+						WindGust: @(Forecast.WindGust)mph
+					</div>
+				}
+			</div>
+			<div>
+				<div>
+					Weather Conditions: @(Forecast.Weather.First().Main)
+				</div>
+				<div>
+					Weatheer Description: @(Forecast.Weather.First().Description)
+				</div>
+				<div>
+					<div>Probability of Precipitation: @(Forecast.Pop)</div>
+					@if (Forecast.Pop > 0)
+					{
+						<div>
+							@if (Forecast.Rain != null)
+							{
+								<div>@(Forecast.Rain) mm/h</div>
+							}
+							@if (Forecast.Snow != null)
+							{
+								<div>@(Forecast.Snow) mm/h</div>
+							}
+						</div>
+					}
+				</div>
+			</div>
+		}
+
+	</div>
 </div>
-@code {
-    [Parameter]
-    public ForecastCurrent? Forecast { get; set; }
 
+@code {
+	[Parameter]
+	public ForecastCurrent? Forecast { get; set; }
+
+	
 }
