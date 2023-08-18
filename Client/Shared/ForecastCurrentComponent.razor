@@ -50,9 +50,6 @@
 						Weatheer Description: @(Forecast.Weather.First().Description)
 					</div>
 					<div>
-						<div>Probability of Precipitation: @(Forecast.Pop)</div>
-						@if (Forecast.Pop > 0)
-						{
 							<div>
 								@if (Forecast.Rain != null)
 								{

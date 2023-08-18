@@ -62,7 +62,8 @@
 								Weatheer Description: @(hour.Weather.First().Description)
 							</div>
 							<div>
-								<div>Probability of Precipitation: @(hour.Pop)</div>
+								<div>Probability of Precipitation: @(hour.Pop)%</div>
+
 								@if (hour.Pop > 0)
 								{
 									<div>
