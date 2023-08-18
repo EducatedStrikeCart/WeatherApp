@@ -18,6 +18,7 @@ namespace WeatherApp.Shared.OpenWeatherAPIParser
 		public int Visibility { get; set; }
 
         // Probability of precipitation. The values of the parameter vary between 0 and 1, where 0 is equal to 0%, 1 is equal to 100%
+		// Present in Hourly forecast but not in Current
         [JsonPropertyName("pop")]
         public double? Pop { get; set; }
 
