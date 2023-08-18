@@ -7,11 +7,11 @@
 
 @page "/location"
 
-<div>
-	<EditForm class="d-flex flex-column justify-content-between" Model="@UserLocation" OnValidSubmit="@HandleValidSubmit">
+<div class="my-3">
+	<EditForm class="d-flex flex-column justify-content-between form-group" Model="@UserLocation" OnValidSubmit="@HandleValidSubmit">
 		<DataAnnotationsValidator />
 		<ValidationSummary />
-		<label>
+		<label class="form-label">
 			Country
 			<InputSelect id="country" @bind-Value="UserLocation.CountryCode">
 				<option value=""></option> <!-- Null value to ensure binding occurs for first option-->
@@ -23,7 +23,7 @@
 		</label>
 		@if (UserLocation.CountryCode == "US")
 		{
-			<label>
+			<label class="form-label">
 				State
 				<InputSelect id="state" @bind-Value="UserLocation.StateCode">
 					<option value=""></option> <!-- Null value to ensure binding occurs for first option-->
@@ -34,25 +34,13 @@
 				</InputSelect>
 			</label>
 		}
-		<label>
+		<label class="form-label">
 			City
 			<InputText id="city" @bind-Value="UserLocation.City" />
 		</label>
 		<button class="btn btn-primary" type="submit">Submit</button>
 
 	</EditForm>
-	@UserLocation.CountryCode
-	@UserLocation.StateCode
-	@UserLocation.City
-
-
-	<button class="btn btn-primary" onclick="@TestCallback">Test</button>
-
-	@foreach (Location location in Cities)
-	{
-		<div>@(location.City)</div>
-	}
-
 </div>
 
 

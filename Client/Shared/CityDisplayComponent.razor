@@ -1,6 +1,6 @@
 ﻿@using WeatherApp.Shared.Models
 
-<div class="d-flex flex-column border border-primary">
+<div class="d-flex flex-column border border-primary p-3">
 	<h3>@(City.City)</h3>
 	@if (City.StateCode != null)
 	{
@@ -8,7 +8,7 @@
 	}
 	<div>Country: @(City.CountryCode)</div>
 
-	<NavLink href="@{$"/weather?lat={City.Latitude}&lon={City.Longitude}"}">This is my city...</NavLink>
+	<NavLink class="btn btn-success " href="@{$"/weather?lat={City.Latitude}&lon={City.Longitude}"}">This is my city!</NavLink>
 </div>
 
 @code {

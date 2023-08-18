@@ -2,13 +2,9 @@
 
 @page "/SelectLocation"
 
-<div class="d-flex flex-column flex-grow-1">
+<div class="container d-flex flex-column h-100 p-3 ">
 	<h3>Select your location:</h3>
-
-
-	@(cities.Count > 0 ? cities[0].CountryCode : "null")
-
-	<div class="selectLocation d-flex flex-grow-1 border border-primary">
+	<div class="container d-flex border border-primary flex-grow-1">
 		<div class="d-flex justify-content-around flex-grow-1">
 			<GeocoderComponent @bind-Cities="cities"></GeocoderComponent>
 			<VerticalDivider />
