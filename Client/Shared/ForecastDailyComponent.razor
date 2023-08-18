@@ -4,28 +4,31 @@
 <h3>ForecastDailyComponent</h3>
 
 <div>
-	@(Forecast.Dt)
-	@(Forecast.Sunrise)
-	@(Forecast.Sunset)
-	@(Forecast.Temp)
-	@(Forecast.FeelsLike)
-	@(Forecast.Pressure)
-	@(Forecast.Humidity)
-	@(Forecast.DewPoint)
-	@(Forecast.Uvi)
-	@(Forecast.Clouds)
-	@(Forecast.Visibility)
-	@(Forecast.WindSpeed)
-	@(Forecast.WindDeg)
-	@(Forecast.WindGust)
-	@(Forecast.Weather)
-	@(Forecast.Rain)
-	@(Forecast.Snow)
-	@(Forecast.Pop)
+	@if(Forecast != null)
+	{
+		@(Forecast.Dt)
+		@(Forecast.Sunrise)
+		@(Forecast.Sunset)
+		@(Forecast.Temp)
+		@(Forecast.FeelsLike)
+		@(Forecast.Pressure)
+		@(Forecast.Humidity)
+		@(Forecast.DewPoint)
+		@(Forecast.Uvi)
+		@(Forecast.Clouds)
+		@(Forecast.WindSpeed)
+		@(Forecast.WindDeg)
+		@(Forecast.WindGust)
+		@(Forecast.Weather)
+		@(Forecast.Rain)
+		@(Forecast.Snow)
+		@(Forecast.Pop)
+	}
+	
 </div>
 
 @code {
 	[Parameter]
-	public ForecastDaily Forecast { get; set; }
+	public ForecastDaily? Forecast { get; set; }
 }
 
