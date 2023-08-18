@@ -1,94 +1,117 @@
 ﻿@using WeatherApp.Shared.Models;
 @using WeatherApp.Shared.OpenWeatherAPIParser;
 
-<div class="d-flex flex-column">
-
-	<h3>ForecastDailyComponent</h3>
+<div class="container h-75">
+	<h3>7 Day Forecast</h3>
 	<div>
 		@if (Forecast != null)
 		{
 			@foreach (var day in Forecast)
 			{
-				<div class="d-flex flex-column border border-2 border-primary rounded-2">
-					@(DateTimeOffset.FromUnixTimeSeconds(day.Dt).DateTime)
+				<div class="d-flex flex-column w-100 border border-2 border-primary rounded-2 my-3">
+					<div class="bg-primary text-white fw-bold">@(DateTimeOffset.FromUnixTimeSeconds(day.Dt).DateTime.ToShortDateString())</div>
+
+					
 					@if (day.Sunrise != null && day.Sunset != null)
 					{
-						<div>
+						<div class="container">
 							Sunrise: @(day.Sunrise != null ? DateTimeOffset.FromUnixTimeSeconds(day.Sunrise.GetValueOrDefault()).DateTime : null)
 							Sunset: @(DateTimeOffset.FromUnixTimeSeconds(day.Sunset.GetValueOrDefault()).DateTime)
 						</div>
 					}
 
-					<div>
-						<div>Tempeerature:</div>
-						<table>
+					<div class="container">
+						<table class="table table-bordered">
+							<tr>
+								<th></th>
+								<th>Temperature</th>
+								<th>Feels Like</th>
+
+							</tr>
 							<tr>
 								<td>Morning: </td>
 								<td>@(day.Temp.Morn)°F</td>
+								<td>@(day.FeelsLike.Morn)°F</td>
 
 							</tr>
 							<tr>
 								<td>Day: </td>
 								<td>@(day.Temp.Day)°F</td>
+								<td>@(day.FeelsLike.Day)°F</td>
+
 							</tr>
 							<tr>
 								<td>Evening: </td>
 								<td>@(day.Temp.Eve)°F</td>
+								<td>@(day.FeelsLike.Eve)°F</td>
+
 							</tr>
 							<tr>
 								<td>Night: </td>
 								<td>@(day.Temp.Night)°F</td>
+								<td>@(day.FeelsLike.Night)°F</td>
+
 							</tr>
 							<tr>
 								<td>Min: </td>
 								<td>@(day.Temp.Min)°F</td>
+
 							</tr>
 							<tr>
 								<td>Max: </td>
 								<td>@(day.Temp.Max)°F</td>
+
 							</tr>
 						</table>
-						<div></div>
-						Feels Like: @(day.FeelsLike)°F
-						Humidity: @(day.Humidity)%
+					</div>
 
-					</div>
-					<div>
-						Pressure: @(day.Pressure)
-						DewPoint: @(day.DewPoint)
-						Uvi: @(day.Uvi)
-						Clouds: @(day.Clouds)%
-					</div>
-					<div>
-						Wind Speed: @(day.WindSpeed) mph
-						Wind Direction: @(day.WindDeg) °
-						@if (day.WindGust != null)
-						{
+					<div class="container w-100 d-flex flex-column flex-lg-row justify-content-lg-around">
+						<div>
 							<div>
-								WindGust: @(day.WindGust)mph
+								Weather Conditions: @(day.Weather.First().Main)
 							</div>
-						}
-					</div>
-					<div>
-						<div>
-							Weather Conditions: @(day.Weather.First().Main)
+							<div>
+								Weatheer Description: @(day.Weather.First().Description)
+							</div>
+							<div>
+								<div>Probability of Precipitation: @(day.Pop * 100)%</div>
+								@if (day.Pop > 0)
+								{
+									<div>
+										@if (day.Rain != null)
+										{
+											<div>Rain: @(day.Rain) mm/h</div>
+										}
+										@if (day.Snow != null)
+										{
+											<div>Snow: @(day.Snow) mm/h</div>
+										}
+									</div>
+								}
+							</div>
 						</div>
 						<div>
-							Weatheer Description: @(day.Weather.First().Description)
+							<div>
+								Humidity: @(day.Humidity)%
+							</div>
+							Pressure: @(day.Pressure) hPa
+							<div>
+							</div>
+							DewPoint: @(day.DewPoint) °F
+							<div>
+								Uvi: @(day.Uvi) on  UV Index
+							</div>
+							<div>
+								Clouds: @(day.Clouds)%
+							</div>
 						</div>
 						<div>
-							<div>Probability of Precipitation: @(day.Pop)</div>
-							@if (day.Pop > 0)
+							Wind Speed: @(day.WindSpeed) mph
+							Wind Direction: @(day.WindDeg) °
+							@if (day.WindGust != null)
 							{
 								<div>
-									@if (day.Rain != null)
-									{
-										<div>@(day.Rain) mm/h</div>
-									}
-									@if (day.Snow != null)
-									{
-										<div>@(day.Snow) mm/h</div>
-									}
+									Wind Gust: @(day.WindGust) mph
 								</div>
 							}
 						</div>

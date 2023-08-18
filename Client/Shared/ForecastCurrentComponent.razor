@@ -2,67 +2,69 @@
 @using WeatherApp.Shared.Models
 @using WeatherApp.Shared.OpenWeatherAPIParser;
 
-<div class="d-flex flex-column">
-	<div>
+<div class="container w-100">
+	<h3>Current Weather</h3>
+	<div class="d-flex flex-column w-100 border border-2 border-primary rounded-2 my-3 ">
 		@if (Forecast != null)
 		{
-
-			<div>
-				Time:@(DateTimeOffset.FromUnixTimeSeconds(Forecast.Dt).DateTime)
+			<div class="bg-primary text-white fw-bold p-1">
+				Date:@(DateTimeOffset.FromUnixTimeSeconds(Forecast.Dt).DateTime.ToShortDateString())
+				Time:@(DateTimeOffset.FromUnixTimeSeconds(Forecast.Dt).DateTime.ToShortTimeString())
 			</div>
-			@if (Forecast.Sunrise != null && Forecast.Sunset != null)
-			{
-				<div>
-					Sunrise: @(Forecast.Sunrise != null ? DateTimeOffset.FromUnixTimeSeconds(Forecast.Sunrise.GetValueOrDefault()).DateTime : null)
-					Sunset: @(DateTimeOffset.FromUnixTimeSeconds(Forecast.Sunset.GetValueOrDefault()).DateTime)
-				</div>
-			}
-
-			<div>
-				Temperature: @(Forecast.Temp)°F
-				Feels Like: @(Forecast.FeelsLike)°F
-				Humidity: @(Forecast.Humidity)%
-
-			</div>
-			<div>
-				Pressure: @(Forecast.Pressure)
-				DewPoint: @(Forecast.DewPoint)
-				Uvi: @(Forecast.Uvi)
-				Clouds: @(Forecast.Clouds)%
-				Visibility: @(Forecast.Visibility)km
-			</div>
-			<div>
-				Wind Speed: @(Forecast.WindSpeed) mph
-				Wind Direction: @(Forecast.WindDeg) °
-				@if (Forecast.WindGust != null)
+			<div class="container w-100 d-flex flex-column justify-content-lg-around">
+				@if (Forecast.Sunrise != null && Forecast.Sunset != null)
 				{
 					<div>
-						WindGust: @(Forecast.WindGust)mph
+						Sunrise: @(Forecast.Sunrise != null ? DateTimeOffset.FromUnixTimeSeconds(Forecast.Sunrise.GetValueOrDefault()).DateTime : null)
+						Sunset: @(DateTimeOffset.FromUnixTimeSeconds(Forecast.Sunset.GetValueOrDefault()).DateTime)
 					</div>
 				}
-			</div>
-			<div>
-				<div>
-					Weather Conditions: @(Forecast.Weather.First().Main)
+
+				<div class="flex-grow-1">
+					<div>Temperature: @(Forecast.Temp)°F</div>
+					<div>Feels Like: @(Forecast.FeelsLike)°F</div>
+					<div>Humidity: @(Forecast.Humidity)%</div>
 				</div>
 				<div>
-					Weatheer Description: @(Forecast.Weather.First().Description)
+					<div>Pressure: @(Forecast.Pressure)</div>
+					<div>DewPoint: @(Forecast.DewPoint)</div>
+					<div>Uvi: @(Forecast.Uvi)</div>
+					<div>Clouds: @(Forecast.Clouds)%</div>
+					<div>Visibility: @(Forecast.Visibility) km</div>
 				</div>
 				<div>
-					<div>Probability of Precipitation: @(Forecast.Pop)</div>
-					@if (Forecast.Pop > 0)
+					Wind Speed: @(Forecast.WindSpeed) mph
+					Wind Direction: @(Forecast.WindDeg) °
+					@if (Forecast.WindGust != null)
 					{
 						<div>
-							@if (Forecast.Rain != null)
-							{
-								<div>@(Forecast.Rain) mm/h</div>
-							}
-							@if (Forecast.Snow != null)
-							{
-								<div>@(Forecast.Snow) mm/h</div>
-							}
+							WindGust: @(Forecast.WindGust)mph
 						</div>
 					}
+				</div>
+				<div>
+					<div>
+						Weather Conditions: @(Forecast.Weather.First().Main)
+					</div>
+					<div>
+						Weatheer Description: @(Forecast.Weather.First().Description)
+					</div>
+					<div>
+						<div>Probability of Precipitation: @(Forecast.Pop)</div>
+						@if (Forecast.Pop > 0)
+						{
+							<div>
+								@if (Forecast.Rain != null)
+								{
+									<div>@(Forecast.Rain) mm/h</div>
+								}
+								@if (Forecast.Snow != null)
+								{
+									<div>@(Forecast.Snow) mm/h</div>
+								}
+							</div>
+						}
+					</div>
 				</div>
 			</div>
 		}
@@ -74,5 +76,5 @@
 	[Parameter]
 	public ForecastCurrent? Forecast { get; set; }
 
-	
+
 }

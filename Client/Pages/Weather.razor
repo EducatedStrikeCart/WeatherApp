@@ -7,19 +7,17 @@
 @inject NavigationManager _navManager
 @inject HttpClient _http
 
-<div class="d-flex flex-column w-100  bg-black">
+<div class="d-flex flex-column w-100 vh-100 bg-black">
 	<h2 class="bg-secondary text-white m-0">Weather Forecasts</h2>
-	<div class="p-3  m-4 flex-grow-1">
+	<div class="d-flex flex-column p-3 m-4 overflow-auto h-100">
 		<div id="tab-buttons">
 			<button class="btn btn-primary" onclick="@(()=>TabButtonHandler("tab-current"))">Current</button>
 			<button class="btn btn-primary" onclick="@(()=>TabButtonHandler("tab-minutely"))">Next Hour</button>
 			<button class="btn btn-primary" onclick="@(()=>TabButtonHandler("tab-hourly"))">Hourly</button>
 			<button class="btn btn-primary" onclick="@(() => TabButtonHandler("tab-10day"))">7-day</button>
 		</div>
-		<div class="bg-white h-100">
+		<div class="bg-white h-75 overflow-auto flex-grow-1">
 			<div class="">
-
-
 				<div id="current-forecast" class=@(_tabDisplayed == "tab-current" ? "d-flex" : "d-none")>
 					<ForecastCurrentComponent Forecast=@(this.Forecast.Current) />
 				</div>
